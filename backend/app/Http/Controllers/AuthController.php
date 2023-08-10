@@ -50,11 +50,14 @@ class AuthController extends Controller
         ];
         $status = 200;
 
-        if( !$this->obj_jwt->chkToken($token)){
-            $res=[
+        $result = $this->obj_jwt->chkToken($token);
+        if( is_array($result)){
+            $res = [
                 'errflg' => '1',
-                'msg' => 'unAuthorization'
-    
+                'error_info' => [
+                    "code" => $result["code"]
+                    ,"msg" => $result["msg"]
+                ]
             ];
             $status = 401;
         }
